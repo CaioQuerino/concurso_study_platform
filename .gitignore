@@ -6,3 +6,5 @@ config/application-*.properties
 .vscode
 .github
 test
+environment.prod.ts
+environment.ts
