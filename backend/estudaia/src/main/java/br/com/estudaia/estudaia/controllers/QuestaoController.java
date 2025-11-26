@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/questoes")
 @AllArgsConstructor
+@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:3000"})
 public class QuestaoController {
     
     private final QuestaoService questaoService;
@@ -32,8 +33,6 @@ public class QuestaoController {
     @PostMapping
     public ApiResponse<QuestaoDTO> createQuestao(@RequestBody QuestaoDTO questaoDTO) {
         try {
-            // Aqui você precisará implementar a lógica de criação no service
-            // Por enquanto, retornaremos um mock
             QuestaoDTO createdQuestao = questaoService.create(questaoDTO);
             return ApiResponse.success(createdQuestao);
         } catch (Exception e) {

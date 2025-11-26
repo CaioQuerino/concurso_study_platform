@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ia")
 @AllArgsConstructor
+@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:3000"})
 public class IAController {
     
     private final IAStudyService iaStudyService;
