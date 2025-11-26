@@ -1,9 +1,15 @@
 export interface Questao {
     id?: number;
     enunciado: string;
-    alternativas: string[];
-    alternativaCorreta: number;
-    explicacao: string;
-    dificuldade: 'Fácil' | 'Médio' | 'Difícil';
-    disciplina: string;
+    disciplinaNome: string;
+    concursoNome?: string;
+    ano?: number;
+    nivelDificuldade: string;
+    alternativas: Alternativa[];
+}
+
+export interface Alternativa {
+    id?: number;
+    texto: string;
+    correta: boolean;
 }

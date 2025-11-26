@@ -1,38 +1,94 @@
-<h2>Editar Questão</h2>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Questão</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true">
+  <div *ngIf="questao" class="form-container">
+    <form (ngSubmit)="atualizar()">
+      <!-- Enunciado -->
+      <ion-item>
+        <ion-label position="stacked">Enunciado</ion-label>
+        <ion-textarea 
+          [(ngModel)]="questao.enunciado" 
+          name="enunciado" 
+          required
+          rows="4">
+        </ion-textarea>
+      </ion-item>
 
-@if (questao) {
-<form (ngSubmit)="atualizar()">
-<label>Enunciado</label>
-<textarea [(ngModel)]="questao.enunciado" name="enunciado"></textarea>
+      <!-- Disciplina -->
+      <ion-item>
+        <ion-label position="stacked">Disciplina</ion-label>
+        <ion-input 
+          [(ngModel)]="questao.disciplinaNome" 
+          name="disciplinaNome" 
+          required>
+        </ion-input>
+      </ion-item>
 
+      <!-- Ano -->
+      <ion-item>
+        <ion-label position="stacked">Ano</ion-label>
+        <ion-input 
+          type="number" 
+          [(ngModel)]="questao.ano" 
+          name="ano">
+        </ion-input>
+      </ion-item>
 
-<label>Alternativas</label>
-@for (alt of questao.alternativas; track $index) {
-<input [(ngModel)]="questao.alternativas[$index]" name="alt{{$index}}" />
-}
+      <!-- Dificuldade -->
+      <ion-item>
+        <ion-label>Nível de Dificuldade</ion-label>
+        <ion-select [(ngModel)]="questao.nivelDificuldade" name="nivelDificuldade" required>
+          <ion-select-option value="FACIL">Fácil</ion-select-option>
+          <ion-select-option value="MEDIO">Médio</ion-select-option>
+          <ion-select-option value="DIFICIL">Difícil</ion-select-option>
+        </ion-select>
+      </ion-item>
 
+      <!-- Alternativas -->
+      <ion-list-header>
+        <ion-label>Alternativas</ion-label>
+      </ion-list-header>
 
-<label>Alternativa Correta</label>
-<input type="number" [(ngModel)]="questao.alternativaCorreta" name="correta" />
+      <div *ngFor="let alt of questao.alternativas; let i = index" class="alternativa-item">
+        <ion-item>
+          <ion-label position="stacked">Alternativa {{i + 1}}</ion-label>
+          <ion-textarea 
+            [(ngModel)]="questao.alternativas[i].texto" 
+            [name]="'alt' + i" 
+            required
+            rows="2">
+          </ion-textarea>
+          <ion-checkbox 
+            slot="end" 
+            [(ngModel)]="questao.alternativas[i].correta"
+            [name]="'correta' + i">
+          </ion-checkbox>
+        </ion-item>
+        <ion-note>Marque como correta</ion-note>
+      </div>
 
+      <!-- Botão Atualizar -->
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        color="primary"
+        [disabled]="!formValido()"
+        class="submit-button">
+        <ion-icon name="refresh" slot="start"></ion-icon>
+        Atualizar Questão
+      </ion-button>
+    </form>
+  </div>
 
-<label>Explicação</label>
-<textarea [(ngModel)]="questao.explicacao" name="explicacao"></textarea>
-
-
-<label>Dificuldade</label>
-<select [(ngModel)]="questao.dificuldade" name="dificuldade">
-<option>Fácil</option>
-<option>Médio</option>
-<option>Difícil</option>
-</select>
-
-
-<label>Disciplina</label>
-<input [(ngModel)]="questao.disciplina" name="disciplina" />
-
-
-<button type="submit">Atualizar</button>
-</form>
-}
+  <div *ngIf="!questao" class="loading">
+    <ion-spinner></ion-spinner>
+    <p>Carregando questão...</p>
+  </div>
+</ion-content>
