@@ -1,0 +1,63 @@
+<ion-header>
+<ion-toolbar color="primary">
+<ion-title>Criar Questão</ion-title>
+</ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+<form (ngSubmit)="salvar()">
+
+
+<ion-item>
+<ion-label position="floating">Enunciado</ion-label>
+<ion-textarea [(ngModel)]="questao.enunciado" name="enunciado"></ion-textarea>
+</ion-item>
+
+
+<ion-list>
+<ion-list-header>
+<ion-label>Alternativas</ion-label>
+</ion-list-header>
+
+
+@for (alt of questao.alternativas; track $index) {
+<ion-item>
+<ion-label position="floating">Alternativa {{$index + 1}}</ion-label>
+<ion-input [(ngModel)]="questao.alternativas[$index]" name="alt{{$index}}"></ion-input>
+</ion-item>
+}
+</ion-list>
+
+
+<ion-item>
+<ion-label position="floating">Alternativa Correta (0 a 3)</ion-label>
+<ion-input type="number" [(ngModel)]="questao.alternativaCorreta" name="correta"></ion-input>
+</ion-item>
+
+
+<ion-item>
+<ion-label position="floating">Explicação</ion-label>
+<ion-textarea [(ngModel)]="questao.explicacao" name="explicacao"></ion-textarea>
+</ion-item>
+
+
+<ion-item>
+<ion-label>Dificuldade</ion-label>
+<ion-select [(ngModel)]="questao.dificuldade" name="dificuldade">
+<ion-select-option value="Fácil">Fácil</ion-select-option>
+<ion-select-option value="Médio">Médio</ion-select-option>
+<ion-select-option value="Difícil">Difícil</ion-select-option>
+</ion-select>
+</ion-item>
+
+
+<ion-item>
+<ion-label position="floating">Disciplina</ion-label>
+<ion-input [(ngModel)]="questao.disciplina" name="disciplina"></ion-input>
+</ion-item>
+
+
+<ion-button expand="block" type="submit" color="success">Salvar</ion-button>
+</form>
+</ion-content>

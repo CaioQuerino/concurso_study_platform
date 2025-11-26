@@ -1,0 +1,8 @@
+.env
+*.env
+config/application-*.properties.env
+*.env
+config/application-*.properties
+.vscode
+.github
+test

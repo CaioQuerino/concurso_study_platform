@@ -1,0 +1,13 @@
+@if (questao) {
+  <h2>{{ questao.enunciado }}</h2>
+
+  <ul>
+    <li>A) {{ questao.alternativaA }}</li>
+    <li>B) {{ questao.alternativaB }}</li>
+    <li>C) {{ questao.alternativaC }}</li>
+    <li>D) {{ questao.alternativaD }}</li>
+    <li>E) {{ questao.alternativaE }}</li>
+  </ul>
+
+  <p><strong>Correta:</strong> {{ questao.correta }}</p>
+}

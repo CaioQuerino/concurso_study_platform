@@ -1,0 +1,38 @@
+<h2>Editar Questão</h2>
+
+
+@if (questao) {
+<form (ngSubmit)="atualizar()">
+<label>Enunciado</label>
+<textarea [(ngModel)]="questao.enunciado" name="enunciado"></textarea>
+
+
+<label>Alternativas</label>
+@for (alt of questao.alternativas; track $index) {
+<input [(ngModel)]="questao.alternativas[$index]" name="alt{{$index}}" />
+}
+
+
+<label>Alternativa Correta</label>
+<input type="number" [(ngModel)]="questao.alternativaCorreta" name="correta" />
+
+
+<label>Explicação</label>
+<textarea [(ngModel)]="questao.explicacao" name="explicacao"></textarea>
+
+
+<label>Dificuldade</label>
+<select [(ngModel)]="questao.dificuldade" name="dificuldade">
+<option>Fácil</option>
+<option>Médio</option>
+<option>Difícil</option>
+</select>
+
+
+<label>Disciplina</label>
+<input [(ngModel)]="questao.disciplina" name="disciplina" />
+
+
+<button type="submit">Atualizar</button>
+</form>
+}
