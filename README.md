@@ -12,7 +12,7 @@ O projeto segue uma arquitetura de microsserviços monolítica, dividida em trê
 | :--- | :--- | :--- |
 | **Backend** | Spring Boot (Java 21) | Responsável pela lógica de negócios, API RESTful e persistência de dados. |
 | **Frontend** | Angular/Ionic (TypeScript) | Interface do usuário, responsável pela apresentação e interação com o usuário. |
-| **Banco de Dados** | PostgreSQL | Armazenamento persistente dos dados da aplicação. |
+| **Banco de Dados** | MySQL | Armazenamento persistente dos dados da aplicação. |
 
 ## 3. CONFIGURAÇÃO E AMBIENTE DE DESENVOLVIMENTO
 
@@ -24,11 +24,11 @@ Para executar o projeto, são necessários os seguintes softwares:
 *   **Apache Maven**
 *   **Node.js e npm** (versão LTS recomendada)
 *   **Angular CLI**
-*   **PostgreSQL** (versão 14 ou superior)
+*   **MySQL** (versão 14 ou superior)
 
 ### 3.2. Configuração do Banco de Dados
 
-O banco de dados utilizado é o PostgreSQL. As seguintes configurações foram aplicadas:
+O banco de dados utilizado é o MySQL. As seguintes configurações foram aplicadas:
 
 1.  **Criação do Usuário e Banco de Dados:**
     ```sql
@@ -39,25 +39,42 @@ O banco de dados utilizado é o PostgreSQL. As seguintes configurações foram a
 
 ### 3.3. Configuração do Backend (Spring Boot)
 
-O backend está configurado para se conectar ao PostgreSQL. O arquivo de configuração é `backend/estudaia/src/main/resources/application.properties`:
+O backend está configurado para se conectar ao MySQL. O arquivo de configuração é `backend/estudaia/src/main/resources/application.properties`:
 
 ```properties
 spring.application.name=estudaia
-spring.datasource.url=jdbc:postgresql://localhost:5432/estudaia
-spring.datasource.username=estudaia
-spring.datasource.password=estudaia
-spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Database
+spring.datasource.url=jdbc:mysql://localhost:3306/db
+spring.datasource.username=user
+spring.datasource.password=pass
+
+# JPA
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.format_sql=true
+
+# Server
 server.port=8080
+
+# API Security
+app.api.key=${API_KEY}
+app.api.header-name=X-API-Key
+
+# OpenAI Configuration
+spring.ai.openai.api-key=${OPENAI_API_KEY}
+
+# Logging
+logging.level.br.com.estudaia=DEBUG
+logging.level.org.hibernate.SQL=DEBUG
 ```
 
 **Para iniciar o Backend:**
 
 ```bash
-cd concurso_study_platform/backend/estudaia
-mvn clean install -DskipTests
-java -jar target/estudaia-0.0.1-SNAPSHOT.jar
+  cd concurso_study_platform/backend/estudaia
+  .\clean-start.sh
 ```
 
 ### 3.4. Configuração do Frontend (Angular/Ionic)
@@ -65,20 +82,21 @@ java -jar target/estudaia-0.0.1-SNAPSHOT.jar
 O frontend se comunica com o backend através da URL configurada em `frontend/estudaia/src/environments/environment.ts` e `environment.prod.ts`:
 
 ```typescript
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080/api'
-};
+  export const environment = {
+    production: false,
+    apiUrl: 'http://localhost:8080/api',
+    apiKey: ''
+  };
 ```
 
 **Para iniciar o Frontend:**
 
 ```bash
-cd concurso_study_platform/frontend/estudaia
-npm install
-ng build
-# Para servir o projeto (após a compilação)
-http-server www -p 4200
+  cd concurso_study_platform/frontend/estudaia
+  npm install
+  ng build
+  # Para servir o projeto (após a compilação)
+  http-server www -p 8100
 ```
 
 ## 4. ESTRUTURA DE DADOS (MODELAGEM)
@@ -101,7 +119,7 @@ O projeto oferece as seguintes funcionalidades principais:
 *   **Gerenciamento de Questões:** Criação, edição, listagem e visualização de questões.
 *   **Gerenciamento de Concursos e Disciplinas:** Cadastro e consulta de concursos e disciplinas.
 *   **Simulados:** Criação e realização de simulados (funcionalidade a ser expandida).
-
+ 
 ## 6. REFERÊNCIAS
 
 Não há referências externas citadas neste documento.
